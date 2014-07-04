@@ -29,7 +29,8 @@ public class TestGame extends Game{
 
 	@Override
 	public void render(double interp) {
-		// TODO Auto-generated method stub
+		screen.clearBuffer(); // clears the screen
+		screen.swapBuffer(); // swaps the buffer and draws to the screen
 	}
 
 	@Override
