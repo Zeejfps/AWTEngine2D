@@ -21,7 +21,7 @@ public class Renderer {
 			
 			for (int xPix = 0; xPix < bitmap.getWidth(); xPix++) {
 				
-				int src = bitmap.getRGB(xPix, yPix);
+				int src = bitmap.getPixel(xPix, yPix);
 				if (src != 0xffff00ff)
 					screenBitmap.setPixel(xPix+winX, yPix+winY, src);
 				

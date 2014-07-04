@@ -39,7 +39,7 @@ public final class SpriteSheet {
 			
 			for (int xPix = xOffset, j = 0; xPix < bitmap.getWidth(); xPix++, j++) {
 				
-				temp.setPixel(j, i, bitmap.getRGB(xPix, yPix));
+				temp.setPixel(j, i, bitmap.getPixel(xPix, yPix));
 				
 			}
 			

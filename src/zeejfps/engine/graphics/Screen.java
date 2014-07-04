@@ -17,6 +17,8 @@ public class Screen {
 	private final BufferedImage buffer;
 	private final Bitmap bitmap;
 	
+	private int clearColor = 0xff000000;
+	
 	public Screen(int width, int height, int scale) {
 		
 		this.width = width;
@@ -33,7 +35,7 @@ public class Screen {
 	}
 	
 	public void clearBuffer() {
-		Arrays.fill(bitmap.getPixels(), 0xff000000);
+		Arrays.fill(bitmap.getPixels(), clearColor);
 	}
 	
 	public void swapBuffer() {
@@ -69,6 +71,15 @@ public class Screen {
 	
 	public int getHeight() {
 		return height;
+	}
+	
+	public void setClearColor(Color color) {
+		setClearColor(color.getRGB());
+	}
+	
+	public void setClearColor(int color) {
+		canvas.setBackground(new Color(color));
+		clearColor = color;
 	}
 
 }
