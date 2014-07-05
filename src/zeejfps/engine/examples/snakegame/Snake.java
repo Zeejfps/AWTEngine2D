@@ -60,7 +60,9 @@ public class Snake {
 			
 			direction = NORTH;
 			
-		} else if (game.getKeyboard().keyDown(KeyEvent.VK_D) && direction != WEST) {
+		} 
+		
+		if (game.getKeyboard().keyDown(KeyEvent.VK_D) && direction != WEST) {
 			
 			if(direction == SOUTH)
 				snakeHead.rotate90CCW();
@@ -69,7 +71,9 @@ public class Snake {
 			
 			direction = EAST;
 			
-		} else if (game.getKeyboard().keyDown(KeyEvent.VK_S) && direction != NORTH) {
+		} 
+		
+		if (game.getKeyboard().keyDown(KeyEvent.VK_S) && direction != NORTH) {
 			
 			if(direction == WEST)
 				snakeHead.rotate90CCW();
@@ -78,7 +82,9 @@ public class Snake {
 			
 			direction = SOUTH;
 			
-		} else if (game.getKeyboard().keyDown(KeyEvent.VK_A) && direction != EAST) {
+		} 
+		
+		if (game.getKeyboard().keyDown(KeyEvent.VK_A) && direction != EAST) {
 			
 			if(direction == NORTH)
 				snakeHead.rotate90CCW();
@@ -137,7 +143,7 @@ public class Snake {
 					int y = (int) (i + direction.y);
 					
 					if (x < 0 || x >= game.getScreen().getScaledWidth() || y < 0 || y >= game.getScreen().getScaledHeight()) {
-						game.stop();
+						game.exit();
 					}
 					
 					switch (grid[y][x]) {
@@ -148,7 +154,7 @@ public class Snake {
 						break;
 						
 					case SnakeGame.SNAKE_BODY:
-						game.stop();
+						game.exit();
 						break;
 					
 					}

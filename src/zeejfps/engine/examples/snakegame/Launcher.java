@@ -32,7 +32,7 @@ public class Launcher {
 				window.setVisible(true);
 				
 				// starting the game
-				game.start();
+				game.run();
 				
 			}
 		});

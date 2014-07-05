@@ -28,7 +28,6 @@ public abstract class Game {
 	// Couple of variables used to keep trap of fps and running / pausing the game
 	private int maxUpdates = 30, maxFps = 60;
 	private boolean running = false;;
-	private boolean paused = false;
 	
 	// Variables used for debugging
 	private final Logger debugger = Logger.getLogger("Debugger");
@@ -75,12 +74,12 @@ public abstract class Game {
 	 * When called the game thread is started and the game loop begins to run,
 	 * onStart method is then called.
 	 */
-	public synchronized final void start() {
+	public synchronized final void run() {
 		
 		if (!running) {
 			debugger.info("Game Started.");
 			running = true;
-			onStart();
+			init();
 			gameThread.start();
 			
 		} else {
@@ -90,30 +89,11 @@ public abstract class Game {
 	}
 	
 	/**
-	 * This method sets the paused flag to true and calls the onPause method.
-	 */
-	public final void pause() {
-		if (!paused) {
-			debugger.info("Game Paused.");
-			paused = true;
-			onPause();
-		} else {
-			debugger.warning("Game already paused!");
-		}
-	}
-	
-	/**
 	 * Called when the game is started.
 	 * This is where you want to do all of your creating logic or 
 	 * anything you want right before the main loop is started.
 	 */
-	public abstract void onStart();
-	
-	/**
-	 * Called when the game is paused.
-	 * Place anything you want triggered when game is paused.
-	 */
-	public abstract void onPause();
+	public abstract void init();
 	
 	/**
 	 * Called over and over in game loop at specified max ups.
@@ -129,35 +109,17 @@ public abstract class Game {
 	public abstract void render(double interp);
 	
 	/**
-	 * Called when the game is resumed.
-	 */
-	public abstract void onResume();
-	
-	/**
 	 * Called when the game is stopped.
 	 * Do all of your clean up logic in here.
 	 */
-	public abstract void onStop();
-	
-	/**
-	 * Sets the paused flag to false, and calls onResume.
-	 */
-	public final void resume() {
-		if (paused) {
-			debugger.info("Game Resumed.");
-			paused = false;
-			onResume();
-		} else {
-			debugger.warning("Game is not paused!");
-		}
-	}
+	public abstract void onExit();
 	
 	/**
 	 * This method will set running flag to false and then waits until the game thread has 
 	 * completed running, then calls the onStop method.
 	 * 
 	 */
-	public synchronized final void stop() {
+	public synchronized final void exit() {
 		if (running) {
 			debugger.info("Game Stopped.");
 			running = false;
@@ -167,7 +129,7 @@ public abstract class Game {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			onStop();
+			onExit();
 		} else {
 			debugger.warning("Game is not running!");
 		}
@@ -227,14 +189,6 @@ public abstract class Game {
 	 */
 	public Renderer getRenderer() {
 		return renderer;
-	}
-	
-	/**
-	 * 
-	 * @return true if the game's paused flag is set to true.
-	 */
-	public boolean isPaused() {
-		return paused;
 	}
 	
 	/**
