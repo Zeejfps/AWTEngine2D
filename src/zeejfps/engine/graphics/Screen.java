@@ -67,20 +67,12 @@ public class Screen {
 		return canvas;
 	}
 	
-	public int getRealWidth() {
+	public int getWidth() {
 		return width;
 	}
 	
-	public int getRealHeight() {
+	public int getHeight() {
 		return height;
-	}
-	
-	public int getScaledWidth() {
-		return buffer.getWidth();
-	}
-	
-	public int getScaledHeight() {
-		return buffer.getHeight();
 	}
 	
 	public int getScale() {

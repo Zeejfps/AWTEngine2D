@@ -111,7 +111,7 @@ public class Snake {
 				int y = i * SnakeGame.GRID_SIZE;
 				
 				if (grid[i][j] == SnakeGame.SNAKE_HEAD) {
-					
+
 					game.getRenderer().draw(x, y, snakeHead);
 					
 				} else if (grid[i][j] == SnakeGame.SNAKE_BODY) {

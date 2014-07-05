@@ -9,7 +9,7 @@ public class SnakeGame extends Game{
 
 	public static final SpriteSheet SPRITE_SHEET = new SpriteSheet(8, 8, "res/snakegame/spritesheet.png");
 	public static final int EMPTY = 0, SNAKE_BODY = 1, SNAKE_HEAD = 2, APPLE = 3;
-	public static final int GRID_SIZE = 8;
+	public static final int GRID_SIZE = 16;
 
 	private int[][] grid;
 	private Snake snake;
@@ -29,7 +29,7 @@ public class SnakeGame extends Game{
 	@Override
 	public void init() {
 		
-		grid = new int[screen.getScaledHeight()/GRID_SIZE][screen.getScaledWidth()/GRID_SIZE];
+		grid = new int[screen.getHeight()/GRID_SIZE][screen.getWidth()/GRID_SIZE];
 		snake = new Snake(this, grid);
 		snake.spawnApple();
 

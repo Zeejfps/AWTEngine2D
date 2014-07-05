@@ -13,30 +13,18 @@ public class Mouse {
 	private int xPos = 0, yPos = 0;
 	private boolean leftDown = false;
 	
-	private final Screen screen;
-	
 	public Mouse(Screen screen) {
 		MouseEventListener mel = new MouseEventListener();
 		screen.getCanvas().addMouseListener(mel);
 		screen.getCanvas().addMouseMotionListener(mel);
 		screen.getCanvas().addMouseWheelListener(mel);
-		
-		this.screen = screen;
 	}
 	
-	public int getScaledX() {
-		return xPos / screen.getScale();
-	}
-	
-	public int getScaledY() {
-		return yPos / screen.getScale();
-	}
-	
-	public int getRealX() {
+	public int getX() {
 		return xPos;
 	}
 	
-	public int getRealY() {
+	public int getY() {
 		return yPos;
 	}
 	
