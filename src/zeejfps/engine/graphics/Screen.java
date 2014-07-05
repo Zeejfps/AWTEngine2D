@@ -8,6 +8,8 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
+import zeejfps.engine.utils.math.Vector2;
+
 public class Screen {
 	
 	private final Canvas canvas;
@@ -86,6 +88,14 @@ public class Screen {
 	public void setClearColor(int color) {
 		canvas.setBackground(new Color(color));
 		clearColor = color;
+	}
+	
+	public Vector2 screenToPixelCoords(Vector2 vec) {
+		
+		int winX = (int) Math.round((( vec.x + 1 ) * 0.5) * bitmap.getWidth());
+		int winY = (int) Math.round((( 1 - vec.y ) * 0.5) * bitmap.getHeight());
+
+		return new Vector2(winX, winY);
 	}
 
 }

@@ -3,7 +3,9 @@ package zeejfps.engine.examples.snakegame;
 import java.util.logging.Level;
 
 import zeejfps.engine.core.Game;
+import zeejfps.engine.graphics.Bitmap;
 import zeejfps.engine.graphics.SpriteSheet;
+import zeejfps.engine.utils.Transform;
 
 public class SnakeGame extends Game{
 
@@ -24,6 +26,7 @@ public class SnakeGame extends Game{
 		setDebugLevel(Level.FINEST);
 
 		screen.setClearColor(0xffA59643);
+		
 	}
 
 	@Override
@@ -42,6 +45,9 @@ public class SnakeGame extends Game{
 
 	}
 
+
+	long time = System.currentTimeMillis();
+	double x = 2, y = 2;
 	@Override
 	public void render(double interp) {
 		 // clears the screen

@@ -9,7 +9,7 @@ import java.util.Random;
 
 import zeejfps.engine.core.Game;
 import zeejfps.engine.graphics.Bitmap;
-import zeejfps.engine.math.Vector2;
+import zeejfps.engine.utils.math.Vector2;
 
 public class Snake {
 	

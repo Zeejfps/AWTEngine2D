@@ -1,4 +1,4 @@
-package zeejfps.engine.math;
+package zeejfps.engine.utils.math;
 
 /**
  * This is a utility class that can be used in your games to represent speed and direction or used as a point in space.
@@ -108,6 +108,22 @@ public final class Vector2 {
 		return this;
 	}
 	
+	@Override
+	public String toString() {
+		
+		return "Vector2[x=" + x + ", y=" + y + "]";
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if (obj instanceof Vector2) {
+			Vector2 v = (Vector2)obj;
+			return v.x == x && v.y == y;
+		}
+		
+		return false;
+	}
 	
 	//These methods are simply a wrapper and should be used if you do not want to modify the original vector.
 	
