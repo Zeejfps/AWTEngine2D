@@ -7,13 +7,12 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.util.Arrays;
 
 public class Screen {
 	
 	private final Canvas canvas;
 
-	private final int width, height;
+	private final int width, height, scale;
 	private final BufferedImage buffer;
 	private final Bitmap bitmap;
 	
@@ -23,6 +22,7 @@ public class Screen {
 		
 		this.width = width;
 		this.height = height;
+		this.scale = scale;
 		
 		this.buffer = new BufferedImage(width/scale, height/scale, BufferedImage.TYPE_INT_ARGB);
 		int[] pixelData = ((DataBufferInt)buffer.getRaster().getDataBuffer()).getData();
@@ -35,7 +35,9 @@ public class Screen {
 	}
 	
 	public void clearBuffer() {
-		Arrays.fill(bitmap.getPixels(), clearColor);
+		for (int i = 0; i < bitmap.getPixels().length; i++) {
+			bitmap.getPixels()[i] = clearColor;
+		}
 	}
 	
 	public void swapBuffer() {
@@ -65,12 +67,24 @@ public class Screen {
 		return canvas;
 	}
 	
-	public int getWidth() {
+	public int getRealWidth() {
 		return width;
 	}
 	
-	public int getHeight() {
+	public int getRealHeight() {
 		return height;
+	}
+	
+	public int getScaledWidth() {
+		return buffer.getWidth();
+	}
+	
+	public int getScaledHeight() {
+		return buffer.getHeight();
+	}
+	
+	public int getScale() {
+		return scale;
 	}
 	
 	public void setClearColor(Color color) {
