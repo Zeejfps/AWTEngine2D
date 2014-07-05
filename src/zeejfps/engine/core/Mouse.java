@@ -1,29 +1,42 @@
 package zeejfps.engine.core;
 
-import java.awt.Canvas;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import zeejfps.engine.graphics.Screen;
+
 public class Mouse {
 
 	private int xPos = 0, yPos = 0;
 	private boolean leftDown = false;
 	
-	public Mouse(Canvas canvas) {
+	private final Screen screen;
+	
+	public Mouse(Screen screen) {
 		MouseEventListener mel = new MouseEventListener();
-		canvas.addMouseListener(mel);
-		canvas.addMouseMotionListener(mel);
-		canvas.addMouseWheelListener(mel);
+		screen.getCanvas().addMouseListener(mel);
+		screen.getCanvas().addMouseMotionListener(mel);
+		screen.getCanvas().addMouseWheelListener(mel);
+		
+		this.screen = screen;
 	}
 	
-	public int getX() {
+	public int getScaledX() {
+		return xPos / screen.getScale();
+	}
+	
+	public int getScaledY() {
+		return yPos / screen.getScale();
+	}
+	
+	public int getRealX() {
 		return xPos;
 	}
 	
-	public int getY() {
+	public int getRealY() {
 		return yPos;
 	}
 	

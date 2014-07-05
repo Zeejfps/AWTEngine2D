@@ -1,8 +1,9 @@
 package zeejfps.engine.core;
 
-import java.awt.Canvas;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import zeejfps.engine.graphics.Screen;
 
 /**
  * This class is responsible for catching and handling all the events keyEvents
@@ -19,12 +20,12 @@ public class Keyboard {
 	private boolean[] released = new boolean[NUM_KEYS];
 	
 	/**
-	 * @param canvas the canvas on witch to listen for keyEvents.
+	 * @param screen the screen on which to listen for keyEvents.
 	 */
-	public Keyboard(Canvas canvas) {
+	public Keyboard(Screen screen) {
 		
 		KeyEventListener kel = new KeyEventListener();
-		canvas.addKeyListener(kel);
+		screen.getCanvas().addKeyListener(kel);
 		
 	}
 	

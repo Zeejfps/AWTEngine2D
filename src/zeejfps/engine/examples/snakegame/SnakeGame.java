@@ -1,5 +1,7 @@
 package zeejfps.engine.examples.snakegame;
 
+import java.util.logging.Level;
+
 import zeejfps.engine.core.Game;
 import zeejfps.engine.graphics.SpriteSheet;
 
@@ -19,6 +21,8 @@ public class SnakeGame extends Game{
 		setMaxFps(0);
 		setMaxUps(10);
 		
+		setDebugLevel(Level.FINEST);
+
 		screen.setClearColor(0xffA59643);
 	}
 

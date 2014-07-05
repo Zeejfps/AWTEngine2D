@@ -48,9 +48,9 @@ public abstract class Game {
 		
 		screen = new Screen(width, height, scale);
 		renderer = new Renderer(screen);
-		keyboard = new Keyboard(screen.getCanvas());
-		mouse = new Mouse(screen.getCanvas());
-	
+		mouse = new Mouse(screen);
+		keyboard = new Keyboard(screen);
+
 		debugger.setUseParentHandlers(false);
 		debugger.setLevel(Level.FINEST);
 		debugger.addHandler(debugHandler);
@@ -229,12 +229,12 @@ public abstract class Game {
 				previous = current;
 				lag += elapsed;
 
+				pollInput();
 				// if enough time has passed, update.
 				while (lag >= nsPerUpdate) {
 					
 					update();
 					updates ++;
-					pollInput();
 					lag -= nsPerUpdate;
 				}
 
