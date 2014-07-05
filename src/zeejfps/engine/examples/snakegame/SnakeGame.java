@@ -52,7 +52,7 @@ public class SnakeGame extends Game{
 
 	@Override
 	public void onExit() {
-
+		System.out.println("onExit");
 	}
 
 }

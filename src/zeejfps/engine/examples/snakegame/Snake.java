@@ -142,7 +142,7 @@ public class Snake {
 					int x = (int) (j + direction.x);
 					int y = (int) (i + direction.y);
 					
-					if (x < 0 || x >= game.getScreen().getScaledWidth() || y < 0 || y >= game.getScreen().getScaledHeight()) {
+					if (y < 0 || y >= grid.length || x < 0 || x >= grid[y].length) {
 						game.exit();
 					}
 					

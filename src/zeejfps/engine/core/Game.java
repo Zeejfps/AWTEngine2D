@@ -121,15 +121,17 @@ public abstract class Game {
 	 */
 	public synchronized final void exit() {
 		if (running) {
-			debugger.info("Game Stopped.");
+			debugger.info("Game is exiting!");
 			running = false;
-			
+			System.out.println("Exit!");
 			try {
 				gameThread.join();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			System.out.println("joined");
 			onExit();
+			System.exit(0);
 		} else {
 			debugger.warning("Game is not running!");
 		}
