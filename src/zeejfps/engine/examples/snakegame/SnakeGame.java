@@ -16,7 +16,7 @@ public class SnakeGame extends Game{
 		
 		super(640, 480, 2);
 		
-		setMaxFps(30);
+		setMaxFps(0);
 		setMaxUps(10);
 		
 		screen.setClearColor(0xffA59643);
@@ -52,7 +52,6 @@ public class SnakeGame extends Game{
 
 	@Override
 	public void onExit() {
-		System.out.println("onExit");
 	}
 
 }

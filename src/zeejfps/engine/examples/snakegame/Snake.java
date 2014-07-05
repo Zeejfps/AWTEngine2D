@@ -144,6 +144,7 @@ public class Snake {
 					
 					if (y < 0 || y >= grid.length || x < 0 || x >= grid[y].length) {
 						game.exit();
+						return;
 					}
 					
 					switch (grid[y][x]) {

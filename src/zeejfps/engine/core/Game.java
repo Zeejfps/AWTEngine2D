@@ -24,10 +24,11 @@ public abstract class Game {
 	
 	// Variable that holds the reference to the main game thread
 	private final Thread gameThread;
-
+	private final GameLoop gameLoop;
+	
 	// Couple of variables used to keep trap of fps and running / pausing the game
 	private int maxUpdates = 30, maxFps = 60;
-	private boolean running = false;;
+	private volatile boolean running = false;;
 	
 	// Variables used for debugging
 	private final Logger debugger = Logger.getLogger("Debugger");
@@ -42,7 +43,8 @@ public abstract class Game {
 	 */
 	public Game(int width, int height, int scale) {
 
-		gameThread = new Thread(new GameLoop());
+		gameLoop = new GameLoop();
+		gameThread = new Thread(gameLoop);
 		
 		screen = new Screen(width, height, scale);
 		renderer = new Renderer(screen);
@@ -74,7 +76,7 @@ public abstract class Game {
 	 * When called the game thread is started and the game loop begins to run,
 	 * onStart method is then called.
 	 */
-	public synchronized final void run() {
+	public final void run() {
 		
 		if (!running) {
 			debugger.info("Game Started.");
@@ -119,17 +121,10 @@ public abstract class Game {
 	 * completed running, then calls the onStop method.
 	 * 
 	 */
-	public synchronized final void exit() {
+	public final void exit() {
 		if (running) {
 			debugger.info("Game is exiting!");
 			running = false;
-			System.out.println("Exit!");
-			try {
-				gameThread.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			System.out.println("joined");
 			onExit();
 			System.exit(0);
 		} else {
@@ -208,7 +203,7 @@ public abstract class Game {
 	private class GameLoop implements Runnable {
 
 	    private final double nsPerSec = 1000000000;
-	    
+
 		@Override
 		public void run() {
 			
