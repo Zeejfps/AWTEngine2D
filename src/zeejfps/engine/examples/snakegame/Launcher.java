@@ -18,14 +18,14 @@ public class Launcher {
 			@Override
 			public void run() {
 				
-				Game game = new SnakeGame();
+				Game game = new TestGame();
 				
 				JFrame window = new JFrame("Snake Game v0.1");
 				window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				window.setResizable(false);
 				
 				// getting the canvas from the game's screen
-				window.add(game.getScreen().getCanvas());
+				window.add(game.getCanvas().getAWTCanvas());
 				
 				window.pack();
 				window.setLocationRelativeTo(null);

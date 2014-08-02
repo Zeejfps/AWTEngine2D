@@ -1,4 +1,4 @@
-package zeejfps.engine.core;
+package zeejfps.engine.core.input;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -6,18 +6,18 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-import zeejfps.engine.graphics.Screen;
+import zeejfps.engine.core.graphics.Canvas;
 
 public class Mouse {
 
 	private int xPos = 0, yPos = 0;
 	private boolean leftDown = false;
 	
-	public Mouse(Screen screen) {
+	public Mouse(Canvas canvas) {
 		MouseEventListener mel = new MouseEventListener();
-		screen.getCanvas().addMouseListener(mel);
-		screen.getCanvas().addMouseMotionListener(mel);
-		screen.getCanvas().addMouseWheelListener(mel);
+		canvas.getAWTCanvas().addMouseListener(mel);
+		canvas.getAWTCanvas().addMouseMotionListener(mel);
+		canvas.getAWTCanvas().addMouseWheelListener(mel);
 	}
 	
 	public int getX() {

@@ -1,9 +1,9 @@
-package zeejfps.engine.core;
+package zeejfps.engine.core.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import zeejfps.engine.graphics.Screen;
+import zeejfps.engine.core.graphics.Canvas;
 
 /**
  * This class is responsible for catching and handling all the events keyEvents
@@ -22,10 +22,10 @@ public class Keyboard {
 	/**
 	 * @param screen the screen on which to listen for keyEvents.
 	 */
-	public Keyboard(Screen screen) {
+	public Keyboard(Canvas canvas) {
 		
 		KeyEventListener kel = new KeyEventListener();
-		screen.getCanvas().addKeyListener(kel);
+		canvas.getAWTCanvas().addKeyListener(kel);
 		
 	}
 	
@@ -46,7 +46,7 @@ public class Keyboard {
 		return released[keyCode];
 	}
 	
-	protected void reset() {
+	public void reset() {
 		for (int i = 0; i < NUM_KEYS; i++) {
 			released[i] = false;
 		}
