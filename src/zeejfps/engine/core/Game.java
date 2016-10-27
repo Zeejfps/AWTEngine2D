@@ -1,8 +1,13 @@
 package zeejfps.engine.core;
 
-import zeejfps.engine.core.graphics.Canvas;
-import zeejfps.engine.core.input.Keyboard;
-import zeejfps.engine.core.input.Mouse;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+
+import zeejfps.engine.graphics.Renderer;
+import zeejfps.engine.graphics.Screen;
 /**
  * This class is responsible for running the game loop as well as containing 
  * all necessary variables and objects that are used to interact with the game.
@@ -13,7 +18,8 @@ public abstract class Game {
 	
 	// Variables that will be used widely in a game
 	protected final Mouse mouse;
-	protected final Canvas canvas;
+	protected final Screen screen;
+	protected final Renderer renderer;
 	protected final Keyboard keyboard;
 	
 	// Variable that holds the reference to the main game thread
@@ -23,6 +29,10 @@ public abstract class Game {
 	// Couple of variables used to keep trap of fps and running / pausing the game
 	private int maxUpdates = 30, maxFps = 60;
 	private volatile boolean running = false;;
+	
+	// Variables used for debugging
+	private final Logger debugger = Logger.getLogger("Debugger");
+	private final ConsoleHandler debugHandler = new ConsoleHandler();
 	
 	/**
 	 * Creates a game with a screen of given width and height and a buffer scaled down by the scale.
@@ -36,9 +46,29 @@ public abstract class Game {
 		gameLoop = new GameLoop();
 		gameThread = new Thread(gameLoop);
 		
-		canvas = new Canvas(width, height, scale);
-		mouse = new Mouse(canvas);
-		keyboard = new Keyboard(canvas);
+		screen = new Screen(width, height, scale);
+		renderer = new Renderer(screen);
+		mouse = new Mouse(screen);
+		keyboard = new Keyboard(screen);
+
+		debugger.setUseParentHandlers(false);
+		debugger.setLevel(Level.FINEST);
+		debugger.addHandler(debugHandler);
+		
+		debugHandler.setLevel(Level.WARNING);
+		debugHandler.setFormatter(new Formatter() {
+			
+			@Override
+			public String format(LogRecord record) {
+				
+				StringBuilder sb = new StringBuilder();
+				sb.append("[").append(record.getLevel()).append("]: ");
+				sb.append(record.getMessage());
+				sb.append("\n");
+				
+				return sb.toString();
+			}
+		});
 	}
 	
 	/**
@@ -49,11 +79,14 @@ public abstract class Game {
 	public final void run() {
 		
 		if (!running) {
+			debugger.info("Game Started.");
 			running = true;
 			init();
 			gameThread.start();
 			
-		} 
+		} else {
+			debugger.warning("Game already running!");
+		}
 		
 	}
 	
@@ -90,10 +123,25 @@ public abstract class Game {
 	 */
 	public final void exit() {
 		if (running) {
+			debugger.info("Game is exiting!");
 			running = false;
 			onExit();
 			System.exit(0);
+		} else {
+			debugger.warning("Game is not running!");
 		}
+	}
+	
+	/**
+	 * This method sets the level of debug that will be printed in the console.
+	 * @param level the highest level of debug you want printed in console.
+	 */
+	public void setDebugLevel(Level level) {
+		debugHandler.setLevel(level);
+	}
+	
+	private void pollInput() {
+		keyboard.reset();
 	}
 	
 	/**
@@ -115,8 +163,8 @@ public abstract class Game {
 	/**
 	 * @return the game screen object.
 	 */
-	public Canvas getCanvas() {
-		return canvas;
+	public Screen getScreen() {
+		return screen;
 	}
 	
 	/**
@@ -131,6 +179,13 @@ public abstract class Game {
 	 */
 	public Mouse getMouse() {
 		return mouse;
+	}
+	
+	/**
+	 * @return the renderer.
+	 */
+	public Renderer getRenderer() {
+		return renderer;
 	}
 	
 	/**
@@ -153,7 +208,7 @@ public abstract class Game {
 		public void run() {
 			
 			// for debugging purposes
-	    	//int updates = 0, frames = 0;
+	    	int updates = 0, frames = 0;
 	    	
 	    	// variables to keep track of how long the updates and renders take.
 	    	double debugTime = System.currentTimeMillis();
@@ -174,18 +229,18 @@ public abstract class Game {
 				previous = current;
 				lag += elapsed;
 
-				keyboard.reset();
+				pollInput();
 				// if enough time has passed, update.
 				while (lag >= nsPerUpdate) {
 					
 					update();
-					//updates ++;
+					updates ++;
 					lag -= nsPerUpdate;
 				}
 
 				// if enough time has passed, render.
 				if (current - start >= nsPerRender) {
-					//frames ++;
+					frames ++;
 					render(lag / nsPerUpdate);
 					start = System.nanoTime();
 				}
@@ -193,8 +248,9 @@ public abstract class Game {
 				// this is here to log the fps and updates the game is actualy running at.
 				if (System.currentTimeMillis() - debugTime >= 1000) {
 					
-					//updates = 0;
-					//frames = 0;
+					debugger.fine("Updates: " + updates + " | Frames: " + frames);
+					updates = 0;
+					frames = 0;
 					debugTime = System.currentTimeMillis();
 					
 				}
